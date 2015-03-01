@@ -1,9 +1,3 @@
-# - Find Zero
-# Find the native Box2D includes and libraries
-#
-#  BOX2D_INCLUDE_DIR - where to find TmxParser/Config.hpp, etc.
-#  BOX2D_LIBRARIES   - List of libraries when using libTmxParser.
-#  BOX2D_FOUND       - True if libTmxParser found.
 
 find_package(RUBY REQUIRED)
 if(RUBY_FOUND)
@@ -44,11 +38,6 @@ if(ZERO_LIBRARY_DEBUG)
 else()
   set(ZERO_FOUND FALSE)
 endif()
-
-# Handle the QUIETLY and REQUIRED arguments and set SNDFILE_FOUND to TRUE if
-# all listed variables are TRUE.
-#include(FindPackageHandleStandardArgs)
-#find_package_handle_standard_args(ZERO DEFAULT_MSG ZERO_LIBRARY ZERO_INCLUDE_DIR)
 
 if(ZERO_FOUND)
   set(ZERO_LIBRARIES ${ZERO_LIBRARY})

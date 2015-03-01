@@ -20,3 +20,5 @@ if(ZERO_FOUND)
 	
 	target_link_libraries(${PROJECT_NAME} ${ZERO_LIBRARIES})
 endif()
+
+file(COPY ${CMAKE_SOURCE_DIR}/hello.rb DESTINATION /)

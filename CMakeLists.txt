@@ -22,3 +22,4 @@ if(ZERO_FOUND)
 endif()
 
 file(COPY ${CMAKE_SOURCE_DIR}/hello.rb DESTINATION /)
+file(COPY ${CMAKE_SOURCE_DIR}/main.cfg DESTINATION /)

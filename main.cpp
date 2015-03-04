@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 
     ruby.load("./hello.rb");
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 10000000; i++)
         ruby.update();
 
     ruby.shutdown();

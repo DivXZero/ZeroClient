@@ -12,22 +12,41 @@ using namespace Zero;
 
 // *****************************************************************************
 
+void banner(const char* msg, bool preReturn = true)
+{
+    if (preReturn)
+        std::cout << std::endl;
+    std::cout << "================================================" << std::endl;
+    std::cout << "  " << msg << std::endl;
+    std::cout << "================================================" << std::endl;
+}
+
+// *****************************************************************************
+
 int main(int argc, char** argv)
 {
     // JSON Test
+
+    banner("JSON Test", false);
     JSON json;
     json.loadFromFile("./main.cfg");
 
     for (auto& entry : json)
     {
-        //std::cout << entry.name.GetString() << " : " << entry.value.GetString() << std::endl;
+        std::cout << entry.name.GetString() << " : " << entry.value.GetString() << std::endl;
     }
 
     // Ruby Test
+
+    banner("Ruby Test");
     Ruby::VM ruby;
     ruby.init(argc, argv);
-    ruby.run("./hello.rb");
-    //ruby.run("./hello.rb");
+
+    ruby.load("./hello.rb");
+
+    for (int i = 0; i < 10; i++)
+        ruby.update();
+
     ruby.shutdown();
 
     system("pause");

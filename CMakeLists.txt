@@ -16,7 +16,8 @@ if(ZERO_FOUND)
 	
 	include_directories("Dependencies/Zero/Dependencies/glm")
 	include_directories("Dependencies/Zero/Dependencies/rapidjson/include")
-	include_directories("Dependencies/Zero/Dependencies/ruby/usr/include/ruby-2.3.0")
+	#include_directories("Dependencies/Zero/Dependencies/ruby/usr/include/ruby-2.3.0")
+	include_directories("C:/ruby/include/ruby-2.3.0")
 	
 	target_link_libraries(${PROJECT_NAME} ${ZERO_LIBRARIES})
 endif()

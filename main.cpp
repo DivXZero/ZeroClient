@@ -4,7 +4,8 @@
 #include "zero.h"
 #include "utility/ruby/ruby.h"
 #include "system/window/sfmlwindow.h"
-#include "system/window/win32window.h"
+#include "system/graphics/glscene.h"
+#include "system/graphics/scenemanager.h"
 
 #include <iostream>
 
@@ -28,23 +29,31 @@ void banner(const char* msg, bool preReturn = true)
 int main(int argc, char** argv)
 {
     // *************************************************************************
-    // Window Test
-    // *************************************************************************
-    banner("Window Test", false);
-    System::SFMLWindow window;
-    if (window.create())
-        std::cout << "Window Initialized..." << std::endl;
-
-    // *************************************************************************
     // JSON Test
     // *************************************************************************
-    banner("JSON Test");
+    banner("JSON Test", false);
     JSON json;
     json.loadFromFile("./main.cfg");
     for (auto& entry : json)
     {
         std::cout << entry.name.GetString() << " : " << entry.value.GetString() << std::endl;
     }
+
+    // *************************************************************************
+    // Window Test
+    // *************************************************************************
+    banner("Window Test");
+    System::SFMLWindow window;
+    if (window.create())
+        std::cout << "Window Initialized..." << std::endl;
+
+    // *************************************************************************
+    // Scene Test
+    // *************************************************************************
+    banner("Scene Test");
+    Graphics::SceneManager scnMgr;
+    std::shared_ptr<Graphics::GLScene> glScene(new Graphics::GLScene);
+    scnMgr.push(glScene);
 
     // *************************************************************************
     // Ruby Test
@@ -59,8 +68,13 @@ int main(int argc, char** argv)
     // *************************************************************************
     while (window.isOpen())
     {
-        window.pollEvents();
         ruby.update();
+
+        scnMgr.update();
+        scnMgr.render();
+
+        window.pollEvents();
+        window.swapBuffers();
     }
 
     // *************************************************************************

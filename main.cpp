@@ -1,8 +1,10 @@
 
 // *****************************************************************************
 
-#include "Zero.h"
-#include "Utility/Ruby/Ruby.h"
+#include "zero.h"
+#include "utility/ruby/ruby.h"
+#include "system/window/sfmlwindow.h"
+#include "system/window/win32window.h"
 
 #include <iostream>
 
@@ -25,31 +27,46 @@ void banner(const char* msg, bool preReturn = true)
 
 int main(int argc, char** argv)
 {
-    // JSON Test
+    // *************************************************************************
+    // Window Test
+    // *************************************************************************
+    banner("Window Test", false);
+    System::SFMLWindow window;
+    if (window.create())
+        std::cout << "Window Initialized..." << std::endl;
 
-    banner("JSON Test", false);
+    // *************************************************************************
+    // JSON Test
+    // *************************************************************************
+    banner("JSON Test");
     JSON json;
     json.loadFromFile("./main.cfg");
-
     for (auto& entry : json)
     {
         std::cout << entry.name.GetString() << " : " << entry.value.GetString() << std::endl;
     }
 
+    // *************************************************************************
     // Ruby Test
-
+    // *************************************************************************
     banner("Ruby Test");
     Ruby::VM ruby;
     ruby.init(argc, argv);
-
     ruby.load("./hello.rb");
 
-    for (int i = 0; i < 10000000; i++)
+    // *************************************************************************
+    // Main Loop
+    // *************************************************************************
+    while (window.isOpen())
+    {
+        window.pollEvents();
         ruby.update();
+    }
 
+    // *************************************************************************
+    // Cleanup
+    // *************************************************************************
     ruby.shutdown();
-
-    system("pause");
 
     return 0;
 }

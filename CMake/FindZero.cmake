@@ -6,6 +6,16 @@ if(RUBY_FOUND)
 	target_link_libraries(${PROJECT_NAME} ${RUBY_LIBRARY})
 endif()
 
+if(WIN32)
+	set(SFML_STATIC_LIBRARIES TRUE)
+endif()
+find_package(SFML 2 REQUIRED system window graphics audio)
+if(SFML_FOUND)
+	include_directories(${SFML_INCLUDE_DIR})
+	target_link_libraries(${PROJECT_NAME} ${SFML_DEPENDENCIES})
+	target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
+endif()
+
 find_path(ZERO_INCLUDE_DIR Zero.h
   PATH_SUFFIXES Include
   PATHS

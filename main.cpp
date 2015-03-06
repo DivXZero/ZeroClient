@@ -2,12 +2,7 @@
 // *****************************************************************************
 
 #include "zero.h"
-#include "utility/ruby/ruby.h"
-#include "system/window/sfmlwindow.h"
 #include "system/graphics/glscene.h"
-#include "system/graphics/scenemanager.h"
-
-#include <iostream>
 
 // *****************************************************************************
 
@@ -15,72 +10,33 @@ using namespace Zero;
 
 // *****************************************************************************
 
-void banner(const char* msg, bool preReturn = true)
+class ExampleScene : public Graphics::GLScene
 {
-    if (preReturn)
-        std::cout << std::endl;
-    std::cout << "================================================" << std::endl;
-    std::cout << "  " << msg << std::endl;
-    std::cout << "================================================" << std::endl;
-}
+public:
+    void init() {
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    }
+
+    void update() {
+        // update stuff
+    }
+
+    void render() {
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+};
 
 // *****************************************************************************
 
 int main(int argc, char** argv)
 {
-    // *************************************************************************
-    // JSON Test
-    // *************************************************************************
-    banner("JSON Test", false);
-    JSON json;
-    json.loadFromFile("./main.cfg");
-    for (auto& entry : json)
-    {
-        std::cout << entry.name.GetString() << " : " << entry.value.GetString() << std::endl;
-    }
-
-    // *************************************************************************
-    // Window Test
-    // *************************************************************************
-    banner("Window Test");
-    System::SFMLWindow window;
-    if (window.create())
-        std::cout << "Window Initialized..." << std::endl;
-
-    // *************************************************************************
-    // Scene Test
-    // *************************************************************************
-    banner("Scene Test");
-    Graphics::SceneManager scnMgr;
-    std::shared_ptr<Graphics::GLScene> glScene(new Graphics::GLScene);
-    scnMgr.push(glScene);
-
-    // *************************************************************************
-    // Ruby Test
-    // *************************************************************************
-    banner("Ruby Test");
-    Ruby::VM ruby;
-    ruby.init(argc, argv);
-    ruby.load("./hello.rb");
-
-    // *************************************************************************
-    // Main Loop
-    // *************************************************************************
-    while (window.isOpen())
-    {
-        ruby.update();
-
-        scnMgr.update();
-        scnMgr.render();
-
-        window.pollEvents();
-        window.swapBuffers();
-    }
-
-    // *************************************************************************
-    // Cleanup
-    // *************************************************************************
-    ruby.shutdown();
+    auto game = ZeroGame::Instance();
+    game->init();
+    game->window()->create();
+    game->sceneMgr()->push<ExampleScene>();
+    //game->TEMPscriptMgr()->load("./hello.rb");
+    game->run();
+    game->cleanup();
 
     return 0;
 }

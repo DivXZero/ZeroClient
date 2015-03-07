@@ -17,10 +17,6 @@ public:
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     }
 
-    void update() {
-        // update stuff
-    }
-
     void render() {
         glClear(GL_COLOR_BUFFER_BIT);
     }
@@ -39,13 +35,12 @@ int main(int argc, char** argv)
     int height = gameConfig.getValue("height").GetInt();
     bool fullscreen = gameConfig.getValue("fullscreen").GetBool();
 
-    auto game = ZeroGame::Instance();
-    game->init();
-    game->window()->create(width, height, title, fullscreen);
-    game->sceneMgr()->push<ExampleScene>();
-    //game->TEMPscriptMgr()->load("./hello.rb");
-    game->run();
-    game->cleanup();
+    getGame()->init();
+    getGame()->window()->create(width, height, title, fullscreen);
+    getGame()->sceneMgr()->push<ExampleScene>();
+    getGame()->TEMPscriptMgr()->load("./hello.rb");
+    getGame()->run();
+    getGame()->cleanup();
 
     return 0;
 }

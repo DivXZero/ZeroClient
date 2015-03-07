@@ -30,9 +30,18 @@ public:
 
 int main(int argc, char** argv)
 {
+    JSON gameConfig;
+    if (!gameConfig.loadFromFile("./main.cfg"))
+        return -1;
+
+    const char* title = gameConfig.getValue("title").GetString();
+    int width = gameConfig.getValue("width").GetInt();
+    int height = gameConfig.getValue("height").GetInt();
+    bool fullscreen = gameConfig.getValue("fullscreen").GetBool();
+
     auto game = ZeroGame::Instance();
     game->init();
-    game->window()->create();
+    game->window()->create(width, height, title, fullscreen);
     game->sceneMgr()->push<ExampleScene>();
     //game->TEMPscriptMgr()->load("./hello.rb");
     game->run();
